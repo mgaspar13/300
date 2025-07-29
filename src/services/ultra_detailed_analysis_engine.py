@@ -1020,7 +1020,16 @@ CRÍTICO:
     def _create_ultra_detailed_roi_analysis(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Cria análise ultra-detalhada de ROI"""
         
-        preco = float(data.get('preco', 997))
+        # Handle empty or invalid price values
+        preco_str = data.get('preco', '997')
+        if not preco_str or preco_str == '':
+            preco = 997.0
+        else:
+            try:
+                preco = float(preco_str)
+            except (ValueError, TypeError):
+                preco = 997.0
+        
         
         return {
             "investimento_inicial": f"R$ {preco * 50:.0f}",
